@@ -26,13 +26,12 @@ def sazka_hry(penize_hrace):
             elif sazka > penize_hrace:
                     print("Tolik peněz u sebe nemáte!")
             else:
-                    return sazka
+                return sazka
         except:
             print("Prosím, zadejte částku jako číslo.")
 
 sazka = sazka_hry(penize_hrace)
 penize_hrace -= sazka
-
 
 
 print(f"Vsadil si {sazka} Kč.")
