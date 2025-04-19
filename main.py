@@ -10,22 +10,30 @@ for hodnota in hodnoty_karet:
         karty.append(karta)
 
 random.shuffle(karty)
-print(karty)
 
-while True:
-    try:
-        sazka = int(input(f"Máš u sebe {penize_hrace} Kč. Minimum pro sázku je 500 Kč. Kolik peněž chcete vsadit?"))
-        if sazka < 500:
-            print("Musíte vsadit alespoň 500 Kč.")
-        if sazka == "all in":
-            sazka = penize_hrace
-            print("Šel jste all in")
-        elif sazka > penize_hrace:
-            print("Tolik peněz u sebe nemáte!")
-        else:
-            break
-    except:
-        print("Prosím, zadejte částku!") 
-        
+def sazka_hry(penize_hrace):
+    while True:
+        try:
+            vstup_sazky = input(f"Máš u sebe {penize_hrace} Kč. Minimum pro sázku je 500 Kč. Kolik peněz chcete vsadit nebo zadejte 'all in'? ")
+
+            if vstup_sazky.lower() == "all in":
+                return penize_hrace
+            
+            sazka = int(vstup_sazky)
+
+            if sazka < 500:
+                    print("Musíte vsadit alespoň 500 Kč.")
+            elif sazka > penize_hrace:
+                    print("Tolik peněz u sebe nemáte!")
+            else:
+                    return sazka
+        except:
+            print("Prosím, zadejte částku jako číslo.")
+
+sazka = sazka_hry(penize_hrace)
+penize_hrace -= sazka
 
 
+
+print(f"Vsadil si {sazka} Kč.")
+print(f"Tvůj aktuální zůstatek v peněžence je {penize_hrace} Kč.")
