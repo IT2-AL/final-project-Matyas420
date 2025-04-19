@@ -11,10 +11,17 @@ for hodnota in hodnoty_karet:
 
 random.shuffle(karty)
 
+print("********************************************************************************")
+print("♠                                                                              ♠")
+print("♥                          𝙑í𝙩𝙚𝙟𝙩𝙚 𝙫𝙚 𝙝ř𝙚 𝘽𝙡𝙖𝙘𝙠𝙅𝙖𝙘𝙠                            ♥")
+print("♣                                                                              ♣")
+print("♣                                                                              ♣")
+print("*********************************************************************************") 
+
 def sazka_hry(penize_hrace):
     while True:
         try:
-            vstup_sazky = input(f"Máš u sebe {penize_hrace} Kč. Minimum pro sázku je 500 Kč. Kolik peněz chcete vsadit nebo zadejte 'all in'? ")
+            vstup_sazky = input(" Minimum pro sázku je 500 Kč. Kolik peněz chcete vsadit nebo zadejte 'all in'? ")
 
             if vstup_sazky.lower() == "all in":
                 return penize_hrace
@@ -33,6 +40,24 @@ def sazka_hry(penize_hrace):
 sazka = sazka_hry(penize_hrace)
 penize_hrace -= sazka
 
+print(f"Vsadil jste {sazka} Kč.")
+print(f"Váš aktuální zůstatek v peněžence je {penize_hrace} Kč.")
 
-print(f"Vsadil si {sazka} Kč.")
-print(f"Tvůj aktuální zůstatek v peněžence je {penize_hrace} Kč.")
+print("-------------------------------------------------------------------------------")
+print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
+print("                                                                               ")
+print("                                                                               ")
+print("                                                                               ")
+print("-------------------------------------------------------------------------------")
+
+dealer_karty = []
+hrac_karty = []
+
+
+
+
+
+
+
+print(f" Zůstatek: {penize_hrace} Kč")
+print("--------------------------------------------------------------------------")
