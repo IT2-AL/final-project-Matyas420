@@ -7,6 +7,7 @@ dealer_karty = []
 hrac_karty = []
 nova_karta = []
 
+
 for hodnota in hodnoty_karet:
     for znacka in znacky_karet:
         karta = hodnota + znacka
@@ -46,14 +47,11 @@ penize_hrace -= sazka
 print(f"Vsadil jste {sazka} Kč.")
 print(f"Váš aktuální zůstatek v peněžence je {penize_hrace} Kč.")
 
-
 hrac_karty.append(karty.pop())
 hrac_karty.append(karty.pop())
 
 dealer_karty.append(karty.pop())
 dealer_karty.append(karty.pop())
-
-
 
 print("-------------------------------------------------------------------------------")
 print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
@@ -71,7 +69,7 @@ def prubeh_hry():
 
             if hrac_tah.lower() == "4":
                 print("Je nám líto že odcházíte.")
-                print("--------------------- Konec hry -------------------------")
+                print("--------------------------- Konec hry -------------------------------")
                 break     
 
             if hrac_tah.lower() == "1":
@@ -86,6 +84,25 @@ def prubeh_hry():
                 print(                                                                "\t" * 9, "stát" )
                 print("              Vaše karty:", hrac_karty[0], hrac_karty[1], nova_karta, "\t" * 5, "vzdat se"  )
                 print("-------------------------------------------------------------------------------")
-
-
 prubeh_hry()
+                
+def soucet_karet(ruka):
+    vypocet = 0
+    eso = 0
+
+    for karta in ruka:
+        hodnota = karta[:-1]
+        vypocet += hodnoty_karet[hodnota]
+        if hodnota == "A":
+            eso += 1
+
+    while vypocet > 21 and eso > 0:
+        vypocet -= 10
+        eso -= 1
+
+    return vypocet
+
+soucet_karet(hrac_karty)
+
+         
+
