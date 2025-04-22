@@ -58,7 +58,7 @@ dealer_karty.append(karty.pop())
 
 print("-------------------------------------------------------------------------------")
 print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
-print("                Karty dealera:", dealer_karty[0], "[ ? ]"                       )
+print("                Karty dealera:", *dealer_karty, "[ ? ]"                       )
 print("                                                                               ")
 print("                                                                               ")
 print(                                                                "\t" * 9,  "hit" )
