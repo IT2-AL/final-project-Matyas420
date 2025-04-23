@@ -115,6 +115,7 @@ def prubeh_hry():
             if hrac_tah.lower() == "1":
                 hrac_karty.append(karty.pop())
                 soucet_hrace = soucet_karet(hrac_karty)
+                pravidla_hry()
                 clear()
                 print("-------------------------------------------------------------------------------")
                 print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
