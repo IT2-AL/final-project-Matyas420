@@ -103,8 +103,6 @@ def pravidla_hry():
         print(f"Aktuální zůstatek: {penize_hrace} Kč.")
         penize_hrace += sazka
 
-
-
 def prubeh_hry():
     global soucet_hrace, soucet_dealer
     while True:
