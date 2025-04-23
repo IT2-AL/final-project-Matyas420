@@ -1,4 +1,8 @@
-import random
+import random,os
+
+def clear():
+    os.system("cls")
+
 znacky_karet = ['♠', '♥', '♦', '♣']
 hodnoty_karet = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 pocatecni_penize = 10000
@@ -13,9 +17,8 @@ for hodnota in hodnoty_karet:
     for znacka in znacky_karet:
         karta = hodnota + znacka
         karty.append(karta)
-
 random.shuffle(karty)
-
+clear()
 print("********************************************************************************")
 print("♠                                                                              ♠")
 print("♥                          𝙑í𝙩𝙚𝙟𝙩𝙚 𝙫𝙚 𝙝ř𝙚 𝘽𝙡𝙖𝙘𝙠𝙅𝙖𝙘𝙠                            ♥")
@@ -43,19 +46,16 @@ def sazka_hry(penize_hrace):
         except:
             print("Prosím, zadejte částku jako číslo.")
 
-        
-
 sazka = sazka_hry(penize_hrace)
 penize_hrace -= sazka
-
 print(f"Vsadil jste {sazka} Kč.")
 print(f"Váš aktuální zůstatek v peněžence je {penize_hrace} Kč.")
 hrac_karty.append(karty.pop())
 hrac_karty.append(karty.pop())
-
 dealer_karty.append(karty.pop())
 dealer_karty.append(karty.pop())
 
+clear()
 print("-------------------------------------------------------------------------------")
 print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
 print("                Karty dealera:", *dealer_karty, "[ ? ]"                       )
@@ -70,13 +70,11 @@ print("-------------------------------------------------------------------------
 def soucet_karet(ruka):
     vypocet = 0
     eso = 0
-
     for karta in ruka:
         hodnota = karta[:-1]
         vypocet += hodnoty_karet[hodnota]
         if hodnota == "A":
             eso += 1
-
     while vypocet > 21 and eso > 0:
         vypocet -= 10
         eso -= 1
@@ -119,7 +117,7 @@ def prubeh_hry():
             if hrac_tah.lower() == "1":
                 hrac_karty.append(karty.pop())
                 soucet_hrace = soucet_karet(hrac_karty)
-
+                clear()
                 print("-------------------------------------------------------------------------------")
                 print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
                 print("                Karty dealera:", *dealer_karty, "[ ? ]"                         )
@@ -128,7 +126,7 @@ def prubeh_hry():
                 print(                                                                "\t" * 9,  "hit" )
                 print(                                                                "\t" * 9, "double")
                 print(                                                                "\t" * 9, "stát" )
-                print("              Vaše karty:", *hrac_karty, "\t" * 5, "vzdat se"       )
+                print("              Vaše karty:", *hrac_karty, "\t" * 5,             "vzdat se"       )
                 print("-------------------------------------------------------------------------------")
 
             if hrac_tah.lower() == "3":
@@ -136,19 +134,19 @@ def prubeh_hry():
                     dealer_karty.append(karty.pop())
                 soucet_dealer = soucet_karet(dealer_karty)
                 pravidla_hry()
-
+                clear()
                 print("-------------------------------------------------------------------------------")
                 print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
-                print("                Karty dealera:", *dealer_karty,                                 )
+                print("                Karty dealera:", *dealer_karty                                 )
                 print("                                                                               ")
                 print("                                                                               ")
                 print(                                                                "\t" * 9,  "hit" )
                 print(                                                                "\t" * 9, "double")
                 print(                                                                "\t" * 9, "stát" )
-                print("              Vaše karty:", *hrac_karty, "\t" * 5, "vzdat se"  )
+                print("              Vaše karty:", *hrac_karty, "\t" * 5,                  "vzdat se"  )
                 print("-------------------------------------------------------------------------------")
-
                 break
+            
 soucet_hrace = soucet_karet(hrac_karty)
 soucet_dealer = soucet_karet(dealer_karty)
 soucet_karet(hrac_karty)
