@@ -1,4 +1,5 @@
 import random
+
 znacky_karet = ['♠', '♥', '♦', '♣']
 hodnoty_karet = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 pocatecni_penize = 10000
@@ -61,7 +62,6 @@ def pravidla_hry(soucet_hrace, soucet_dealer, sazka):
         return "prohra"
     elif soucet_hrace == 21:
         print("Máte 21! Automaticky jste vyhrál.")
-        return "vyhra"
     else:
         print("Remíza")
         penize_hrace += sazka
@@ -76,7 +76,7 @@ def hrat_blackjack():
 
         karty = vytvor_balicek()
         hrac_karty = [karty.pop(), karty.pop()]
-        dealer_karty = [karty.pop(), karty.pop()]
+        dealer_karty = [karty.pop()]
         sazka = sazka_hry(penize_hrace)
         penize_hrace -= sazka
         print(f"Vsadil jste {sazka} Kč.")
@@ -87,8 +87,8 @@ def hrat_blackjack():
             print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
             print("                Karty dealera:", *dealer_karty, "[ ? ]"                         )
             print("                                                                               ")
-            print(                                                                "\t" * 9,  "Hit" )
-            print(                                                                "\t" * 9, "Double")
+            print(                                                                  "\t" * 9, "Hit")
+            print(                                                               "\t" * 9, "Double")
             print(                                                                "\t" * 9, "Stát" )
             print("              Vaše karty:", *hrac_karty,                   "\t" * 5, "Vzdat se" )
             print("-------------------------------------------------------------------------------")
@@ -121,16 +121,25 @@ def hrat_blackjack():
                     else:
                         continue  
                 break 
-    
+
             elif tah == "3":
                 break
 
             elif tah == "4":
                 print("Vzdáváte se, přicházíte o polovinu sázky.")
+                vzdal_se = True
                 penize_hrace += sazka // 2
-                return
+                break
             else:
                 print("Neplatný tah. Zkuste to znovu.")
+        if vzdal_se:
+            print(f"Aktuální zůstatek: {penize_hrace} Kč.")
+            znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
+            if znovu != "ano":
+                print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
+                break
+            else:
+                continue
 
         while soucet_karet(dealer_karty) < 17:
             dealer_karty.append(karty.pop())           
@@ -154,7 +163,6 @@ def hrat_blackjack():
             print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
             break
         
-
 # Spuštění hry
 print("********************************************************************************")
 print("♠                                                                              ♠")
