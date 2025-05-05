@@ -132,8 +132,8 @@ def hrat_blackjack():
                 break
             else:
                 print("Neplatný tah. Zkuste to znovu.")
-        if vzdal_se:
-            print(f"Aktuální zůstatek: {penize_hrace} Kč.")
+            if vzdal_se:
+                print(f"Aktuální zůstatek: {penize_hrace} Kč.")
             znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
             if znovu != "ano":
                 print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
