@@ -50,18 +50,11 @@ def pravidla_hry(soucet_hrace, soucet_dealer, sazka):
     global penize_hrace
     if soucet_hrace > 21:
         return "prohra"
-    elif soucet_dealer > 21:
+    elif soucet_dealer > 21 or soucet_hrace > soucet_dealer:
         penize_hrace += sazka * 2
         return "vyhra"
-    elif soucet_hrace > soucet_dealer:
-        print("Máte větší součet karet než dealer. Vyhrál jste!")
-        penize_hrace += sazka * 2
-        return "vyhra"
-    elif soucet_dealer > soucet_hrace:
-        print("Máte nižší součet karet než dealer. Prohrál jste!")
+    elif soucet_hrace < soucet_dealer:
         return "prohra"
-    elif soucet_hrace == 21:
-        print("Máte 21! Automaticky jste vyhrál.")
     else:
         print("Remíza")
         penize_hrace += sazka
@@ -78,21 +71,45 @@ def hrat_blackjack():
         hrac_karty = [karty.pop(), karty.pop()]
         dealer_karty = [karty.pop()]
         sazka = sazka_hry(penize_hrace)
-        penize_hrace -= sazka
-        print(f"Vsadil jste {sazka} Kč.")
+
+        if sazka == penize_hrace:
+            penize_hrace = 0
+            print(f"Vsadil jste: {sazka} Kč.")
+        else:
+            penize_hrace -= sazka
+            print(f"Vsadil jste {sazka} Kč.")
+
         print(f"Váš aktuální zůstatek v peněžence je {penize_hrace} Kč.")
+
+        if soucet_karet(hrac_karty) == 21:
+            print("Vaše karty:", *hrac_karty)
+            dealer_karty.append(karty.pop())
+            print("Karty dealera:", *dealer_karty)
+
+            if soucet_karet(dealer_karty) == 21:
+                print("Oba máte blackjack! Remíza.")
+                penize_hrace += sazka
+            else:
+                print("BLACKJACK! Vyhráváte 1.5× sázku.")
+                penize_hrace += int(sazka * 2.5)
+            print(f"Aktuální zůstatek: {penize_hrace} Kč.")
+            znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
+            if znovu != "ano":
+                print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
+                return
+            else:
+                continue
 
         while True:
             print("-------------------------------------------------------------------------------")
             print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
             print("                Karty dealera:", *dealer_karty, "[ ? ]"                         )
             print("                                                                               ")
-            print(                                                                  "\t" * 9, "Hit")
-            print(                                                               "\t" * 9, "Double")
-            print(                                                                "\t" * 9, "Stát" )
-            print("              Vaše karty:", *hrac_karty,                   "\t" * 5, "Vzdat se" )
+            print(                                                               "\t" * 8,"1 - Hit")
+            print(                                                            "\t" * 8, "2 - Double")
+            print(                                                            "\t" * 8, "3 - Stát" )
+            print("              Vaše karty:", *hrac_karty,               "\t" * 4, "4 - Vzdat se" )
             print("-------------------------------------------------------------------------------")
-            print("1 - Hit | 2 - Double| 3 - Stát | 4 - Vzdat se")
             tah = input("Váš tah: ")
 
             if tah == "1":
@@ -107,42 +124,30 @@ def hrat_blackjack():
                     continue
                 penize_hrace -= sazka
                 sazka *= 2
-                hrac_karty.append(karty.pop()) 
+                hrac_karty.append(karty.pop())
                 print("Zvolili jste Double – berete jednu kartu a stojíte.")
                 if soucet_karet(hrac_karty) > 21:
                     print("Přesáhl jste 21 po zdvojnásobení! Prohrál jste.")
-                    print("Karty dealera:", *dealer_karty)
-                    print("Vaše karty:", *hrac_karty)
-                    print(f"Aktuální zůstatek: {penize_hrace} Kč.")
-                    znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
-                    if znovu != "ano":
-                        print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
-                        return
-                    else:
-                        continue  
-                break 
+                break
 
             elif tah == "3":
                 break
 
             elif tah == "4":
                 print("Vzdáváte se, přicházíte o polovinu sázky.")
-                vzdal_se = True
                 penize_hrace += sazka // 2
-                break
-            else:
-                print("Neplatný tah. Zkuste to znovu.")
-            if vzdal_se:
                 print(f"Aktuální zůstatek: {penize_hrace} Kč.")
-            znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
-            if znovu != "ano":
-                print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
-                break
-            else:
-                continue
+    
+                znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
+                if znovu != "ano":
+                    print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
+                    return
+                else:
+                    continue
 
-        while soucet_karet(dealer_karty) < 17:
-            dealer_karty.append(karty.pop())           
+        if soucet_karet(hrac_karty) <= 21:
+            while soucet_karet(dealer_karty) < 17:
+                dealer_karty.append(karty.pop())           
 
         soucet_hrace = soucet_karet(hrac_karty)
         soucet_dealer = soucet_karet(dealer_karty)
@@ -152,11 +157,6 @@ def hrat_blackjack():
         print("Vaše karty:", *hrac_karty)
         print(f"Výsledek hry: {vysledek}")
         print(f"Aktuální zůstatek: {penize_hrace} Kč.")
-
-        if soucet_karet(hrac_karty) == 21:
-            print("BLACKJACK! Vyhráváte.")
-            penize_hrace += sazka * 2
-            print(f"Aktuální zůstatek: {penize_hrace} Kč.")
 
         znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
         if znovu != "ano":
