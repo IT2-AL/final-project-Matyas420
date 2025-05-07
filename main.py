@@ -1,18 +1,19 @@
-import random
+import random                                                                                                          
 
-znacky_karet = ['♠', '♥', '♦', '♣']
-hodnoty_karet = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
-pocatecni_penize = 10000
-penize_hrace = pocatecni_penize
-minimum_sazky = 500
+znacky_karet = ['♠', '♥', '♦', '♣']                                          # pole ve kterém jsou znaky pro karty
+hodnoty_karet = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6,'7': 7,              # pole ve kterém jsou hodnoty karet a jejich "názvy"
+'8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': 11}
+pocatecni_penize = 10000                                                     # proměnná s hodnotou 10 000
+penize_hrace = pocatecni_penize                                              # proměnná která není napsána na "tvrdo"
+minimum_sazky = 500                                                          # proměnná s hodnotou 500 pro sázku
 
-def vytvor_balicek():
-    karty = []
-    for hodnota in hodnoty_karet:
+def vytvor_balicek():                                                        # funkce, která má zamýchat karty v poli hodnoty a znaky 
+    karty = []                                                               # balíček karet kam se uloží karty se znaky                                                                
+    for hodnota in hodnoty_karet:                                            
         for znacka in znacky_karet:
             karty.append(hodnota + znacka)
-    random.shuffle(karty)
-    return karty
+    random.shuffle(karty)                                                    
+    return karty                                                             # return vrátí hodnotu karty pro 
 
 def sazka_hry(penize_hrace):
     while True:
@@ -142,8 +143,6 @@ def hrat_blackjack():
                 if znovu != "ano":
                     print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
                     return
-                else:
-                    continue
 
         if soucet_karet(hrac_karty) <= 21:
             while soucet_karet(dealer_karty) < 17:
