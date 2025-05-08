@@ -37,21 +37,27 @@ def sazka_hry(penize_hrace):
 def soucet_karet(ruka):
     vypocet = 0
     eso = 0
+
     for karta in ruka:
-        hodnota = karta[:-1]
-        vypocet += hodnoty_karet[hodnota]
+        hodnota = karta[:-1]  
+        vypocet += hodnoty_karet[hodnota]  
         if hodnota == "A":
-            eso += 1
+            eso += 1  
+
     while vypocet > 21 and eso > 0:
-        vypocet -= 10
-        eso -= 1
+        vypocet -= 10  
+        eso -= 1  
     return vypocet
 
 def pravidla_hry(soucet_hrace, soucet_dealer, sazka):
     global penize_hrace
     if soucet_hrace > 21:
         return "prohra"
-    elif soucet_dealer > 21 or soucet_hrace > soucet_dealer:
+    elif soucet_dealer > 21: 
+        print("Dealer přesáhl 21, prohrává!")
+        penize_hrace += sazka * 2
+        return "vyhra"
+    elif soucet_hrace > soucet_dealer:
         penize_hrace += sazka * 2
         return "vyhra"
     elif soucet_hrace < soucet_dealer:
@@ -138,11 +144,7 @@ def hrat_blackjack():
                 print("Vzdáváte se, přicházíte o polovinu sázky.")
                 penize_hrace += sazka // 2
                 print(f"Aktuální zůstatek: {penize_hrace} Kč.")
-    
-                znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
-                if znovu != "ano":
-                    print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
-                    return
+                break
 
         if soucet_karet(hrac_karty) <= 21:
             while soucet_karet(dealer_karty) < 17:
