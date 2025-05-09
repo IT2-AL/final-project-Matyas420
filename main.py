@@ -52,58 +52,58 @@ def soucet_karet(ruka):                                                      # f
         eso -= 1                                                             # snižuje počet es
 
     return vypocet                                                           # vrátí konečný součet
-def pravidla_hry(soucet_hrace, soucet_dealer, sazka):
-    global penize_hrace
-    if soucet_hrace > 21:
+def pravidla_hry(soucet_hrace, soucet_dealer, sazka):                        # funkce na vyhodnocení výsledků
+    global penize_hrace                                                      # program bude moct pracovat s proměnnou penize_hrace i mimo funkci
+    if soucet_hrace > 21:                                                    # pokud hráč přesáhne 21 tak se vrátí prohra
         return "prohra"
-    elif soucet_dealer > 21: 
+    elif soucet_dealer > 21:                                                 # pokud dealer přesáhne 21 tak se vrátí výhra a také hráč dostane 2x svoji sázku
         print("Dealer přesáhl 21, prohrává!")
         penize_hrace += sazka * 2
         return "vyhra"
-    elif soucet_hrace > soucet_dealer:
+    elif soucet_hrace > soucet_dealer:                                       # pokud hráč bude mít větší součet karet než dealerovi karty tak hráč vyhrává 
         penize_hrace += sazka * 2
         return "vyhra"
-    elif soucet_hrace < soucet_dealer:
+    elif soucet_hrace < soucet_dealer:                                       # pokud hráč bude mít nižší součet karet než dealerovi karty tak hráč prohrává
         return "prohra"
     else:
-        print("Remíza")
+        print("Remíza")                                                      # jinak se vrátí remíza a hráč dostane zpátky své vsazené peníze
         penize_hrace += sazka
         return "remiza"
     
-def hrat_blackjack():
-    global penize_hrace
-    while True:
-        if penize_hrace < minimum_sazky:
+def hrat_blackjack():                                                        # funkce pro zahájení hry
+    global penize_hrace                                                       
+    while True:                                                              # smyčka pro opakování hry/kola
+        if penize_hrace < minimum_sazky:                                     # pokod bude mít hráč míž méně peněz než je minimální sázka tak konec hry
             print("Nemáte dostatek peněz na další sázku. Konec hry.")
-            break
+            break                                                            # pro ukončení programu
 
-        karty = vytvor_balicek()
-        hrac_karty = [karty.pop(), karty.pop()]
-        dealer_karty = [karty.pop()]
-        sazka = sazka_hry(penize_hrace)
+        karty = vytvor_balicek()                                             # vytvoření zamíchaného balíčku karet
+        hrac_karty = [karty.pop(), karty.pop()]                              # do pole hrac_karty se přidají dvě karty z pole karty a také se odstraní z toho pole
+        dealer_karty = [karty.pop()]                                         # dealer dostane jednu kartu
+        sazka = sazka_hry(penize_hrace)                                      # hráč zadá sázku
 
-        if sazka == penize_hrace:
+        if sazka == penize_hrace:                                            # pokud hráč vsadí všechny peníze
             penize_hrace = 0
-            print(f"Vsadil jste: {sazka} Kč.")
+            print(f"Vsadil jste: {sazka} Kč.")                               # vypíše se aktuální stav hráčovi sázky
         else:
-            penize_hrace -= sazka
+            penize_hrace -= sazka                                            # zadaná sázka se odečte od hráčovi peněženky
             print(f"Vsadil jste {sazka} Kč.")
 
-        print(f"Váš aktuální zůstatek v peněžence je {penize_hrace} Kč.")
+        print(f"Váš aktuální zůstatek v peněžence je {penize_hrace} Kč.")    # aktuální stav o zůstatku v peněžence
 
-        vzdal_se = False                                                                       # Nastavení na False na začátku každé hry
+        vzdal_se = False                                                     # Nastavení na False na začátku každé hry
 
         while True:
                 print("-------------------------------------------------------------------------------")
                 print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
-                print("                Karty dealera:", *dealer_karty, "[ ? ]"                         )
+                print("                Karty dealera:", *dealer_karty, "[ ? ]"                         )  # * vypíše všechny karty z pole
                 print("                                                                               ")
-                print(                                                               "\t" * 8,"1 - Hit")
+                print(                                                               "\t" * 8,"1 - Hit")  # tabulátory pro design
                 print(                                                            "\t" * 8, "2 - Double")
                 print(                                                            "\t" * 8, "3 - Stát" )
                 print("              Vaše karty:", *hrac_karty,               "\t" * 4, "4 - Vzdat se" )
                 print("-------------------------------------------------------------------------------")
-                tah = input("Váš tah: ")
+                tah = input("Váš tah: ")                                                                  # hráč je na tahu
 
                 if tah == "1":
                     hrac_karty.append(karty.pop())
@@ -155,7 +155,6 @@ def hrat_blackjack():
             print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
             break
 
-        
 # Spuštění hry
 print("********************************************************************************")
 print("♠                                                                              ♠")
