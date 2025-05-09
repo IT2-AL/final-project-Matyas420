@@ -26,7 +26,7 @@ def sazka_hry(penize_hrace):
             
             if sazka < minimum_sazky:
                 print("Musíte vsadit alespoň 500 Kč.")
-                
+
             elif sazka > penize_hrace:
                 print("Tolik peněz u sebe nemáte!")
             else:
@@ -40,15 +40,17 @@ def soucet_karet(ruka):
 
     for karta in ruka:
         hodnota = karta[:-1]  
-        vypocet += hodnoty_karet[hodnota]  
         if hodnota == "A":
             eso += 1  
+            vypocet += 11 
+        else:
+            vypocet += hodnoty_karet[hodnota]  
 
     while vypocet > 21 and eso > 0:
         vypocet -= 10  
         eso -= 1  
-    return vypocet
 
+    return vypocet
 def pravidla_hry(soucet_hrace, soucet_dealer, sazka):
     global penize_hrace
     if soucet_hrace > 21:
@@ -66,7 +68,7 @@ def pravidla_hry(soucet_hrace, soucet_dealer, sazka):
         print("Remíza")
         penize_hrace += sazka
         return "remiza"
-
+    
 def hrat_blackjack():
     global penize_hrace
     while True:
@@ -100,55 +102,52 @@ def hrat_blackjack():
                 print("BLACKJACK! Vyhráváte 1.5× sázku.")
                 penize_hrace += int(sazka * 2.5)
             print(f"Aktuální zůstatek: {penize_hrace} Kč.")
-            znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
-            if znovu != "ano":
-                print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
-                return
-            else:
-                continue
+        else:
 
-        while True:
-            print("-------------------------------------------------------------------------------")
-            print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
-            print("                Karty dealera:", *dealer_karty, "[ ? ]"                         )
-            print("                                                                               ")
-            print(                                                               "\t" * 8,"1 - Hit")
-            print(                                                            "\t" * 8, "2 - Double")
-            print(                                                            "\t" * 8, "3 - Stát" )
-            print("              Vaše karty:", *hrac_karty,               "\t" * 4, "4 - Vzdat se" )
-            print("-------------------------------------------------------------------------------")
-            tah = input("Váš tah: ")
+            while True:
+                print("-------------------------------------------------------------------------------")
+                print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
+                print("                Karty dealera:", *dealer_karty, "[ ? ]"                         )
+                print("                                                                               ")
+                print(                                                               "\t" * 8,"1 - Hit")
+                print(                                                            "\t" * 8, "2 - Double")
+                print(                                                            "\t" * 8, "3 - Stát" )
+                print("              Vaše karty:", *hrac_karty,               "\t" * 4, "4 - Vzdat se" )
+                print("-------------------------------------------------------------------------------")
+                tah = input("Váš tah: ")
 
-            if tah == "1":
-                hrac_karty.append(karty.pop())
-                if soucet_karet(hrac_karty) > 21:
-                    print("Přesáhl jste 21! Prohráli jste!")
+                if tah == "1":
+                    hrac_karty.append(karty.pop())
+                    if soucet_karet(hrac_karty) > 21:
+                        print("Přesáhl jste 21! Prohráli jste!")
+                        break
+
+                elif tah == "2":
+                    if penize_hrace < sazka:
+                        print("Nemáte dostatek peněz na zdvojnásobení sázky!")
+                        continue
+                    penize_hrace -= sazka
+                    sazka *= 2
+                    hrac_karty.append(karty.pop())
+                    print("Zvolili jste Double – berete jednu kartu a stojíte.")
+                    if soucet_karet(hrac_karty) > 21:
+                        print("Přesáhl jste 21 po zdvojnásobení! Prohrál jste.")
                     break
 
-            elif tah == "2":
-                if penize_hrace < sazka:
-                    print("Nemáte dostatek peněz na zdvojnásobení sázky!")
-                    continue
-                penize_hrace -= sazka
-                sazka *= 2
-                hrac_karty.append(karty.pop())
-                print("Zvolili jste Double – berete jednu kartu a stojíte.")
-                if soucet_karet(hrac_karty) > 21:
-                    print("Přesáhl jste 21 po zdvojnásobení! Prohrál jste.")
-                break
+                elif tah == "3":
+                    break
 
-            elif tah == "3":
-                break
-
-            elif tah == "4":
-                print("Vzdáváte se, přicházíte o polovinu sázky.")
-                penize_hrace += sazka // 2
-                print(f"Aktuální zůstatek: {penize_hrace} Kč.")
-                break
+                elif tah == "4":
+                    print("Vzdáváte se, přicházíte o polovinu sázky.")
+                    penize_hrace += sazka // 2
+                    print(f"Aktuální zůstatek: {penize_hrace} Kč.")
+                    break
 
         if soucet_karet(hrac_karty) <= 21:
             while soucet_karet(dealer_karty) < 17:
-                dealer_karty.append(karty.pop())           
+                dealer_karty.append(karty.pop())
+                if soucet_karet(dealer_karty) > 21:  
+                    break  
 
         soucet_hrace = soucet_karet(hrac_karty)
         soucet_dealer = soucet_karet(dealer_karty)
