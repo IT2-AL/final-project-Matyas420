@@ -7,51 +7,51 @@ pocatecni_penize = 10000                                                     # p
 penize_hrace = pocatecni_penize                                              # proměnná která není napsána na "tvrdo"
 minimum_sazky = 500                                                          # proměnná s hodnotou 500 pro sázku
 
-def vytvor_balicek():                                                        # funkce, která má zamýchat karty v poli hodnoty a znaky 
+def vytvor_balicek():                                                        # funkce, která má zamíchat karty v poli hodnoty a znaky 
     karty = []                                                               # balíček karet kam se uloží karty se znaky                                                                
-    for hodnota in hodnoty_karet:                                            
-        for znacka in znacky_karet:
-            karty.append(hodnota + znacka)
-    random.shuffle(karty)                                                    
+    for hodnota in hodnoty_karet:                                            # pro každou hodnotu karty
+        for znacka in znacky_karet:                                          # pro každou značku karty
+            karty.append(hodnota + znacka)                                   # pridá kartu do balíčku
+    random.shuffle(karty)                                                    # zamíchá balíček karet
     return karty                                                             # return vrátí hodnotu karty pro 
 
-def sazka_hry(penize_hrace):
-    while True:
+def sazka_hry(penize_hrace):                                                 # funkce pro zadání sázky
+    while True:                                                              # smyčka pro opakované zopakování sázky
         try:
             vstup_sazky = input(f"Minimum pro sázku je {minimum_sazky} Kč. Kolik peněz chcete vsadit nebo zadejte 'all in'? ")
-            if vstup_sazky.lower() == "all in":
-                return penize_hrace
+            if vstup_sazky.lower() == "all in":                              # pokud hráč zadá all in tak nečekaně zadá všechny své peníze 
+                return penize_hrace                                          # hráč vsadí všechny své peníze
             
-            sazka = int(vstup_sazky)
+            sazka = int(vstup_sazky)                                         # převede vstupní sázku na číslo
             
-            if sazka < minimum_sazky:
+            if sazka < minimum_sazky:                                        # pokud je sázka menší než minimální
                 print("Musíte vsadit alespoň 500 Kč.")
 
-            elif sazka > penize_hrace:
+            elif sazka > penize_hrace:                                       # pokud je sázka větší než hráčovi peníze
                 print("Tolik peněz u sebe nemáte!")
             else:
-                return sazka
+                return sazka                                                 # pokud bude sázka vyhovavat tak ji vrátí 
         except:
-            print("Prosím, zadejte částku jako číslo.")
+            print("Prosím, zadejte částku jako číslo.")                      # ošetření proti chybám, kdyby hráč zadal colik jiného než číslo nebo "all in"
 
-def soucet_karet(ruka):
-    vypocet = 0
-    eso = 0
+def soucet_karet(ruka):                                                      # funkce na výpočet součtu hodnot karet v ruce
+    vypocet = 0                                                              # proměná vypocet je nastavena na 0
+    eso = 0                                                                  # proměná eso je nastavena na 0
 
-    for karta in ruka:
-        hodnota = karta[:-1]  
-        if hodnota == "A":
-            eso += 1  
-            vypocet += 11 
+    for karta in ruka:                                                       # pro každou kartu v ruce
+        hodnota = karta[:-1]                                                 # vrátí hodnotu bez značky
+        if hodnota == "A":                                                   # pokud je hodnota rovna A jako Eso
+            eso += 1                                                         # zvyšuje počet es
+            vypocet += 11                                                    # přičte hodnotu esa
         else:
-            vypocet += hodnoty_karet[hodnota] 
+            vypocet += hodnoty_karet[hodnota]                                # přičte do proměnné vypocet číselnou hodnotu karty podle jejího názvu
 
     
-    while vypocet > 21 and eso > 0:
-        vypocet -= 10  
-        eso -= 1  
+    while vypocet > 21 and eso > 0:                                          # pokud je součet větší než 21 a máme esa
+        vypocet -= 10                                                        # odebírá se 10 za každé eso, aby se hodnotilo jako 1 místo 11
+        eso -= 1                                                             # snižuje počet es
 
-    return vypocet  
+    return vypocet                                                           # vrátí konečný součet
 def pravidla_hry(soucet_hrace, soucet_dealer, sazka):
     global penize_hrace
     if soucet_hrace > 21:
@@ -91,7 +91,7 @@ def hrat_blackjack():
 
         print(f"Váš aktuální zůstatek v peněžence je {penize_hrace} Kč.")
 
-        vzdal_se = False  # Nastavení na False na začátku každé hry
+        vzdal_se = False                                                                       # Nastavení na False na začátku každé hry
 
         while True:
                 print("-------------------------------------------------------------------------------")
