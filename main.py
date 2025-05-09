@@ -90,21 +90,7 @@ def hrat_blackjack():
 
         print(f"Váš aktuální zůstatek v peněžence je {penize_hrace} Kč.")
 
-        if soucet_karet(hrac_karty) == 21:
-            print("Vaše karty:", *hrac_karty)
-            dealer_karty.append(karty.pop())
-            print("Karty dealera:", *dealer_karty)
-
-            if soucet_karet(dealer_karty) == 21:
-                print("Oba máte blackjack! Remíza.")
-                penize_hrace += sazka
-            else:
-                print("BLACKJACK! Vyhráváte 1.5× sázku.")
-                penize_hrace += int(sazka * 2.5)
-            print(f"Aktuální zůstatek: {penize_hrace} Kč.")
-        else:
-
-            while True:
+        while True:
                 print("-------------------------------------------------------------------------------")
                 print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
                 print("                Karty dealera:", *dealer_karty, "[ ? ]"                         )
