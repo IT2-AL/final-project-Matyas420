@@ -44,13 +44,14 @@ def soucet_karet(ruka):
             eso += 1  
             vypocet += 11 
         else:
-            vypocet += hodnoty_karet[hodnota]  
+            vypocet += hodnoty_karet[hodnota] 
 
+    
     while vypocet > 21 and eso > 0:
         vypocet -= 10  
         eso -= 1  
 
-    return vypocet
+    return vypocet  
 def pravidla_hry(soucet_hrace, soucet_dealer, sazka):
     global penize_hrace
     if soucet_hrace > 21:
@@ -90,6 +91,8 @@ def hrat_blackjack():
 
         print(f"Váš aktuální zůstatek v peněžence je {penize_hrace} Kč.")
 
+        vzdal_se = False  # Nastavení na False na začátku každé hry
+
         while True:
                 print("-------------------------------------------------------------------------------")
                 print("                               𝘿𝙚𝙖𝙡𝙚𝙧                                          ")
@@ -124,30 +127,34 @@ def hrat_blackjack():
                     break
 
                 elif tah == "4":
+                    vzdal_se = True                                                             # Nastavení na True, pokud hráč zvolí "Vzdat se"
                     print("Vzdáváte se, přicházíte o polovinu sázky.")
                     penize_hrace += sazka // 2
                     print(f"Aktuální zůstatek: {penize_hrace} Kč.")
                     break
 
-        if soucet_karet(hrac_karty) <= 21:
-            while soucet_karet(dealer_karty) < 17:
-                dealer_karty.append(karty.pop())
-                if soucet_karet(dealer_karty) > 21:  
-                    break  
+        if not vzdal_se:                                                                        # Vyhodnocení výsledků, pokud hráč neodevzdal
+            if soucet_karet(hrac_karty) <= 21:
+                while soucet_karet(dealer_karty) < 17:
+                    dealer_karty.append(karty.pop())
+                    if soucet_karet(dealer_karty) > 21:  
+                        break  
 
-        soucet_hrace = soucet_karet(hrac_karty)
-        soucet_dealer = soucet_karet(dealer_karty)
-        vysledek = pravidla_hry(soucet_hrace, soucet_dealer, sazka)
+            soucet_hrace = soucet_karet(hrac_karty)
+            soucet_dealer = soucet_karet(dealer_karty)
+            vysledek = pravidla_hry(soucet_hrace, soucet_dealer, sazka)
 
-        print("Karty dealera:", *dealer_karty)
-        print("Vaše karty:", *hrac_karty)
-        print(f"Výsledek hry: {vysledek}")
-        print(f"Aktuální zůstatek: {penize_hrace} Kč.")
+            print("Karty dealera:", *dealer_karty)
+            print("Vaše karty:", *hrac_karty)
+            print(f"Výsledek hry: {vysledek}")
+            print(f"Aktuální zůstatek: {penize_hrace} Kč.")
 
-        znovu = input("Chcete hrát znovu? (ano/ne): ").lower()
-        if znovu != "ano":
+    
+        znovu = input("Chcete hrát znovu? (ano/ne): ").lower()                                 # Po každé hře se program zeptá hráče, jestli chce pokračovat
+        if znovu != "ano":                                                                     # 
             print(f"Díky za hru! Odcházíte s {penize_hrace} Kč.")
             break
+
         
 # Spuštění hry
 print("********************************************************************************")
